@@ -32,7 +32,9 @@ docker compose exec db pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 - `sql/20_triggers.sql`: actualización automática de `updated_at`.
 - `sql/30_seed.sql`: usuarios y vacaciones de prueba.
 
-`usuarios` contiene nombre, apellidos, cargo, email único con validación de formato y auditoría temporal (`created_at`, `updated_at`). `sesiones` tiene una relación 1:1 con usuario, token de sesión, token de recuperación opcional y estado (`solicitado`, `proceso`, `autorizado`). `vacaciones` registra fechas por usuario y año.
+`usuarios` contiene nombre, apellidos, cargo, email único con validación de formato, tipo de vacaciones y auditoría temporal (`created_at`, `updated_at`). `tipo_vacaciones` identifica la categoría de vacaciones asignada al usuario; los datos de prueba usan `estandar`. La cantidad fija de días correspondiente a cada tipo aún debe definirse según las categorías y reglas del negocio.
+
+`sesiones` tiene una relación 1:1 con usuario, token de sesión, token de recuperación opcional y estado (`solicitado`, `proceso`, `autorizado`). `vacaciones` registra fechas por usuario y año.
 
 Los datos de prueba no incluyen credenciales ni sesiones válidas. Si se agrega autenticación, almacena la contraseña como hash resistente (por ejemplo Argon2id) y los tokens como hashes; nunca uses los valores de prueba en producción.
 

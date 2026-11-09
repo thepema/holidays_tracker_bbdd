@@ -5,7 +5,8 @@ ALTER TABLE usuarios
     ADD CONSTRAINT usuarios_email_formato CHECK (
         email ~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$'
     ),
-    ADD CONSTRAINT usuarios_email_unico UNIQUE (email);
+    ADD CONSTRAINT usuarios_email_unico UNIQUE (email),
+    ADD CONSTRAINT usuarios_tipo_vacaciones_no_vacio CHECK (length(trim(tipo_vacaciones)) > 0);
 
 ALTER TABLE sesiones
     ADD CONSTRAINT sesiones_usuario_fk
