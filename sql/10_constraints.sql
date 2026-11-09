@@ -1,7 +1,11 @@
 ALTER TABLE usuarios
     ADD CONSTRAINT usuarios_nombre_no_vacio CHECK (length(trim(nombre)) > 0),
     ADD CONSTRAINT usuarios_apellidos_no_vacios CHECK (length(trim(apellidos)) > 0),
-    ADD CONSTRAINT usuarios_cargo_no_vacio CHECK (length(trim(cargo)) > 0);
+    ADD CONSTRAINT usuarios_cargo_no_vacio CHECK (length(trim(cargo)) > 0),
+    ADD CONSTRAINT usuarios_email_formato CHECK (
+        email ~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$'
+    ),
+    ADD CONSTRAINT usuarios_email_unico UNIQUE (email);
 
 ALTER TABLE sesiones
     ADD CONSTRAINT sesiones_usuario_fk

@@ -32,7 +32,7 @@ docker compose exec db pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 - `sql/20_triggers.sql`: actualización automática de `updated_at`.
 - `sql/30_seed.sql`: usuarios y vacaciones de prueba.
 
-`usuarios` contiene datos personales y auditoría temporal (`created_at`, `updated_at`). `sesiones` tiene una relación 1:1 con usuario, token de sesión, token de recuperación opcional y estado (`solicitado`, `proceso`, `autorizado`). `vacaciones` registra fechas por usuario y año.
+`usuarios` contiene nombre, apellidos, cargo, email único con validación de formato y auditoría temporal (`created_at`, `updated_at`). `sesiones` tiene una relación 1:1 con usuario, token de sesión, token de recuperación opcional y estado (`solicitado`, `proceso`, `autorizado`). `vacaciones` registra fechas por usuario y año.
 
 Los datos de prueba no incluyen credenciales ni sesiones válidas. Si se agrega autenticación, almacena la contraseña como hash resistente (por ejemplo Argon2id) y los tokens como hashes; nunca uses los valores de prueba en producción.
 
@@ -41,8 +41,7 @@ Los datos de prueba no incluyen credenciales ni sesiones válidas. Si se agrega 
 Los scripts de `/docker-entrypoint-initdb.d` solo se ejecutan cuando el directorio de datos está vacío. Para borrar todos los datos y reiniciar **solo en desarrollo**:
 
 ```sh
-docker compose down -v
-docker compose up -d
+sh reset-db.sh
 ```
 
-No ejecutes `down -v` en un entorno con datos que quieras conservar. Mantén `.env` fuera de Git y cambia todas las credenciales de ejemplo antes de cualquier despliegue real.
+No ejecutes el reinicio en un entorno con datos que quieras conservar. Mantén `.env` fuera de Git y cambia todas las credenciales de ejemplo antes de cualquier despliegue real.
