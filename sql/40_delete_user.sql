@@ -1,16 +1,6 @@
--- Elimina un usuario y sus datos asociados (vacaciones y sesión).
--- Uso: psql "$DATABASE_URL" -v usuario_id=123 -f sql/40_delete_user.sql
--- Revisa el ID antes de ejecutar; la operación es irreversible una vez confirmada.
-
-BEGIN;
-
-DELETE FROM vacaciones
-WHERE usuario_id = :'usuario_id'::BIGINT;
-
-DELETE FROM sesiones
-WHERE usuario_id = :'usuario_id'::BIGINT;
-
-DELETE FROM usuarios
-WHERE id = :'usuario_id'::BIGINT;
-
-COMMIT;
+-- La eliminación individual de usuarios ya no se ejecuta desde sql/.
+-- Este directorio se monta como /docker-entrypoint-initdb.d, por lo que todos
+-- los archivos SQL se ejecutan automáticamente durante la inicialización.
+-- Para borrar y regenerar toda la base, usa el script del proyecto:
+--   sh reset-db.sh
+--   sh reset-db.sh --yes  # omite la confirmación interactiva
