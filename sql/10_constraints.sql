@@ -13,8 +13,11 @@ ALTER TABLE sesiones
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id),
     ADD CONSTRAINT sesiones_usuario_unico UNIQUE (usuario_id),
     ADD CONSTRAINT sesiones_token_hash_unico UNIQUE (token_hash),
+    ADD CONSTRAINT sesiones_request_token_hash_unico UNIQUE (request_token_hash),
     ADD CONSTRAINT sesiones_recovery_token_hash_unico UNIQUE (recovery_token_hash),
     ADD CONSTRAINT sesiones_token_hash_sha256 CHECK (token_hash ~ '^[0-9a-f]{64}$'),
+    ADD CONSTRAINT sesiones_request_token_hash_sha256
+        CHECK (request_token_hash ~ '^[0-9a-f]{64}$'),
     ADD CONSTRAINT sesiones_recovery_token_hash_sha256
         CHECK (recovery_token_hash IS NULL OR recovery_token_hash ~ '^[0-9a-f]{64}$'),
     ADD CONSTRAINT sesiones_estado_valido

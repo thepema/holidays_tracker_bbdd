@@ -41,6 +41,7 @@ export interface Sesion {
   id: Id;
   usuario_id: Id;
   token_hash: string;
+  request_token_hash: string;
   recovery_token_hash: string | null;
   estado: EstadoSesion;
   created_at: ISODateTime;
@@ -48,8 +49,10 @@ export interface Sesion {
 }
 
 /** Datos internos para insertar una sesión; `estado` usa el default de la BD si se omite. */
-export type NuevaSesion = Pick<Sesion, "usuario_id" | "token_hash"> &
-  Partial<Pick<Sesion, "recovery_token_hash" | "estado">>;
+export type NuevaSesion = Pick<
+  Sesion,
+  "usuario_id" | "token_hash" | "request_token_hash"
+> & Partial<Pick<Sesion, "recovery_token_hash" | "estado">>;
 
 /** Fila de la tabla `vacaciones`. */
 export interface Vacacion {
