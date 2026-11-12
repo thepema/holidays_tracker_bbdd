@@ -12,9 +12,15 @@ CREATE TABLE usuarios (
     cargo VARCHAR(120) NOT NULL,
     email VARCHAR(254) NOT NULL,
     tipo_vacaciones VARCHAR(50) NOT NULL,
-    equipo_id BIGINT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE usuarios_equipos (
+    usuario_id BIGINT NOT NULL,
+    equipo_id BIGINT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (usuario_id, equipo_id)
 );
 
 CREATE TABLE sesiones (

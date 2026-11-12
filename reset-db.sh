@@ -14,7 +14,7 @@ if [ "${1:-}" != "--yes" ]; then
 fi
 
 docker compose exec -T db sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"' <<'SQL'
-DROP TABLE IF EXISTS vacaciones, sesiones, usuarios, equipos CASCADE;
+DROP TABLE IF EXISTS vacaciones, sesiones, usuarios_equipos, usuarios, equipos CASCADE;
 DROP FUNCTION IF EXISTS actualizar_updated_at() CASCADE;
 SQL
 

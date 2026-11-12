@@ -3,7 +3,7 @@
 -- Reinicializa el esquema y los datos de desarrollo.
 -- Ejecutar con psql desde el contenedor de PostgreSQL.
 
-DROP TABLE IF EXISTS vacaciones, sesiones, usuarios, equipos CASCADE;
+DROP TABLE IF EXISTS vacaciones, sesiones, usuarios_equipos, usuarios, equipos CASCADE;
 DROP FUNCTION IF EXISTS actualizar_updated_at() CASCADE;
 
 \i /docker-entrypoint-initdb.d/00_tables.sql

@@ -37,7 +37,6 @@ export interface Usuario {
   cargo: string;
   email: string;
   tipo_vacaciones: string;
-  equipo_id: Id | null;
   created_at: ISODateTime;
   updated_at: ISODateTime;
 }
@@ -46,10 +45,20 @@ export interface Usuario {
 export type NuevoUsuario = Pick<
   Usuario,
   "nombre" | "apellidos" | "cargo" | "email" | "tipo_vacaciones"
-> & Partial<Pick<Usuario, "equipo_id">>;
+>;
 
 /** Campos modificables de `usuarios`. */
 export type ActualizacionUsuario = Partial<NuevoUsuario>;
+
+/** Relación muchos a muchos entre usuarios y equipos. */
+export interface UsuarioEquipo {
+  usuario_id: Id;
+  equipo_id: Id;
+  created_at: ISODateTime;
+}
+
+/** Inserción de una relación usuario-equipo. */
+export type NuevoUsuarioEquipo = Pick<UsuarioEquipo, "usuario_id" | "equipo_id">;
 
 /** Fila de la tabla `sesiones`. Los hashes son internos y nunca deben exponerse. */
 export interface Sesion {
@@ -89,6 +98,7 @@ export type ActualizacionVacacion = Partial<Pick<Vacacion, "anio" | "fecha">>;
 export interface DatabaseTables {
   equipos: Equipo;
   usuarios: Usuario;
+  usuarios_equipos: UsuarioEquipo;
   sesiones: Sesion;
   vacaciones: Vacacion;
 }
