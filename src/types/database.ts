@@ -15,6 +15,20 @@ export type ISODateTime = string; // PostgreSQL TIMESTAMPTZ: ISO 8601
 
 export type EstadoSesion = "solicitado" | "proceso" | "autorizado";
 
+/** Fila de la tabla `equipos`. */
+export interface Equipo {
+  id: Id;
+  nombre: string;
+  created_at: ISODateTime;
+  updated_at: ISODateTime;
+}
+
+/** Campos necesarios al insertar un equipo; los timestamps los genera la BD. */
+export type NuevoEquipo = Pick<Equipo, "nombre">;
+
+/** Campos modificables de `equipos`. */
+export type ActualizacionEquipo = Partial<NuevoEquipo>;
+
 /** Fila de la tabla `usuarios`. */
 export interface Usuario {
   id: Id;
@@ -23,6 +37,7 @@ export interface Usuario {
   cargo: string;
   email: string;
   tipo_vacaciones: string;
+  equipo_id: Id | null;
   created_at: ISODateTime;
   updated_at: ISODateTime;
 }
@@ -31,7 +46,7 @@ export interface Usuario {
 export type NuevoUsuario = Pick<
   Usuario,
   "nombre" | "apellidos" | "cargo" | "email" | "tipo_vacaciones"
->;
+> & Partial<Pick<Usuario, "equipo_id">>;
 
 /** Campos modificables de `usuarios`. */
 export type ActualizacionUsuario = Partial<NuevoUsuario>;
@@ -72,6 +87,7 @@ export type ActualizacionVacacion = Partial<Pick<Vacacion, "anio" | "fecha">>;
 
 /** Correspondencia entre nombres de tabla y sus modelos de fila. */
 export interface DatabaseTables {
+  equipos: Equipo;
   usuarios: Usuario;
   sesiones: Sesion;
   vacaciones: Vacacion;

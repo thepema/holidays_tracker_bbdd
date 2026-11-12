@@ -8,6 +8,11 @@ BEGIN
 END;
 $$;
 
+CREATE TRIGGER equipos_actualizar_updated_at
+BEFORE UPDATE ON equipos
+FOR EACH ROW
+EXECUTE FUNCTION actualizar_updated_at();
+
 CREATE TRIGGER usuarios_actualizar_updated_at
 BEFORE UPDATE ON usuarios
 FOR EACH ROW

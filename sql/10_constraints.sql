@@ -1,12 +1,18 @@
+ALTER TABLE equipos
+    ADD CONSTRAINT equipos_nombre_no_vacio CHECK (length(trim(nombre)) > 0),
+    ADD CONSTRAINT equipos_nombre_unico UNIQUE (nombre);
+
 ALTER TABLE usuarios
     ADD CONSTRAINT usuarios_nombre_no_vacio CHECK (length(trim(nombre)) > 0),
     ADD CONSTRAINT usuarios_apellidos_no_vacios CHECK (length(trim(apellidos)) > 0),
     ADD CONSTRAINT usuarios_cargo_no_vacio CHECK (length(trim(cargo)) > 0),
     ADD CONSTRAINT usuarios_email_formato CHECK (
-        email ~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$'
+        email ~ '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$'
     ),
     ADD CONSTRAINT usuarios_email_unico UNIQUE (email),
-    ADD CONSTRAINT usuarios_tipo_vacaciones_no_vacio CHECK (length(trim(tipo_vacaciones)) > 0);
+    ADD CONSTRAINT usuarios_tipo_vacaciones_no_vacio CHECK (length(trim(tipo_vacaciones)) > 0),
+    ADD CONSTRAINT usuarios_equipo_fk
+        FOREIGN KEY (equipo_id) REFERENCES equipos (id) ON DELETE SET NULL;
 
 ALTER TABLE sesiones
     ADD CONSTRAINT sesiones_usuario_fk
@@ -30,4 +36,5 @@ ALTER TABLE vacaciones
     ADD CONSTRAINT vacaciones_fecha_corresponde_anio CHECK (EXTRACT(YEAR FROM fecha)::SMALLINT = anio),
     ADD CONSTRAINT vacaciones_usuario_fecha_unica UNIQUE (usuario_id, fecha);
 
+CREATE INDEX usuarios_equipo_id_idx ON usuarios (equipo_id);
 CREATE INDEX vacaciones_usuario_anio_idx ON vacaciones (usuario_id, anio);
