@@ -1,6 +1,6 @@
 # Holiday Tracker database
 
-Scripts de inicialización PostgreSQL para Holiday Tracker. El esquema separa tablas, constraints, triggers y datos de prueba. Los tokens se almacenan como hashes SHA-256; nunca guardes tokens en texto plano.
+Scripts de inicialización PostgreSQL para Holiday Tracker. El esquema separa tablas, constraints, triggers y datos de prueba.
 
 ## Requisitos
 
@@ -16,27 +16,18 @@ docker network create --internal backend-network
 docker compose up -d
 ```
 
-Compose monta `sql/` en `/docker-entrypoint-initdb.d`; PostgreSQL ejecuta los scripts por orden al crear el volumen por primera vez. La base queda accesible desde contenedores en `backend-network` con host `holiday-tracker-db`, puerto `5432`. Para el backend configura `DB_HOST=holiday-tracker-db`, `DB_PORT=5432`, `DB_NAME`, `DB_USER` y `DB_PASSWORD` según `.env`.
-
-Desde el host, el puerto se publica solo en `127.0.0.1`. Comprueba el servicio con:
-
-```sh
-docker compose ps
-docker compose exec db pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
-```
+Compose monta `sql/` en `/docker-entrypoint-initdb.d`; PostgreSQL ejecuta los scripts por orden al crear el volumen por primera vez.
 
 ## Estructura
 
 - `sql/00_tables.sql`: definición de tablas.
 - `sql/10_constraints.sql`: claves foráneas, unicidad y validaciones.
 - `sql/20_triggers.sql`: actualización automática de `updated_at`.
-- `sql/30_seed.sql`: usuarios y vacaciones de prueba.
+- `sql/30_seed.sql`: oficinas, calendarios, usuarios y vacaciones de prueba.
 
-`usuarios` contiene nombre, apellidos, cargo, email único con validación de formato, tipo de vacaciones y auditoría temporal (`created_at`, `updated_at`). `tipo_vacaciones` identifica la categoría de vacaciones asignada al usuario; los datos de prueba usan `estandar`. La cantidad fija de días correspondiente a cada tipo aún debe definirse según las categorías y reglas del negocio.
+`usuarios` contiene nombre, apellidos, cargo, email único con validación de formato, tipo de vacaciones, oficina asignada y auditoría temporal. `tipo_vacaciones` identifica la categoría de cada usuario.
 
-`sesiones` tiene una relación 1:1 con usuario, token de sesión, token de recuperación opcional y estado (`solicitado`, `proceso`, `autorizado`). `vacaciones` registra fechas por usuario y año.
-
-Los datos de prueba no incluyen credenciales ni sesiones válidas. Si se agrega autenticación, almacena la contraseña como hash resistente (por ejemplo Argon2id) y los tokens como hashes; nunca uses los valores de prueba en producción.
+La semilla crea las oficinas Madrid y Sevilla, sus calendarios de 2026 y 2027 y los días festivos asociados. También asigna aleatoriamente una oficina a los usuarios de prueba.
 
 ## Reinicializar en desarrollo
 
@@ -46,4 +37,4 @@ Los scripts de `/docker-entrypoint-initdb.d` solo se ejecutan cuando el director
 sh reset-db.sh
 ```
 
-No ejecutes el reinicio en un entorno con datos que quieras conservar. Mantén `.env` fuera de Git y cambia todas las credenciales de ejemplo antes de cualquier despliegue real.
+No ejecutes el reinicio en un entorno con datos que quieras conservar.
