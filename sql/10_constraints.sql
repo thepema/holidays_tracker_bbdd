@@ -10,6 +10,8 @@ ALTER TABLE usuarios
         email ~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$'
     ),
     ADD CONSTRAINT usuarios_email_unico UNIQUE (email),
+    ADD CONSTRAINT usuarios_codigo_positivo CHECK (codigo IS NULL OR codigo > 0),
+    ADD CONSTRAINT usuarios_codigo_unico UNIQUE (codigo),
     ADD CONSTRAINT usuarios_tipo_vacaciones_no_vacio CHECK (length(trim(tipo_vacaciones)) > 0);
 
 ALTER TABLE usuarios_equipos
