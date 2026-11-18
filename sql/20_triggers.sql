@@ -13,6 +13,11 @@ BEFORE UPDATE ON equipos
 FOR EACH ROW
 EXECUTE FUNCTION actualizar_updated_at();
 
+CREATE TRIGGER oficinas_actualizar_updated_at
+BEFORE UPDATE ON oficinas
+FOR EACH ROW
+EXECUTE FUNCTION actualizar_updated_at();
+
 CREATE TRIGGER usuarios_actualizar_updated_at
 BEFORE UPDATE ON usuarios
 FOR EACH ROW
@@ -25,5 +30,10 @@ EXECUTE FUNCTION actualizar_updated_at();
 
 CREATE TRIGGER vacaciones_actualizar_updated_at
 BEFORE UPDATE ON vacaciones
+FOR EACH ROW
+EXECUTE FUNCTION actualizar_updated_at();
+
+CREATE TRIGGER calendarios_oficina_actualizar_updated_at
+BEFORE UPDATE ON calendarios_oficina
 FOR EACH ROW
 EXECUTE FUNCTION actualizar_updated_at();
