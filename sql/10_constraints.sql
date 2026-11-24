@@ -58,5 +58,6 @@ ALTER TABLE dias_festivos
 
 CREATE INDEX usuarios_equipos_equipo_id_idx ON usuarios_equipos (equipo_id);
 CREATE INDEX usuarios_oficina_id_idx ON usuarios (oficina_id);
+CREATE INDEX vacaciones_fecha_idx ON vacaciones (fecha);
 CREATE INDEX vacaciones_usuario_anio_idx ON vacaciones (usuario_id, anio);
 CREATE INDEX calendarios_oficina_anio_idx ON calendarios_oficina (anio);
